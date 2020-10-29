@@ -1,12 +1,17 @@
 base:
 
-  'roles:common':
-    - match: grain
+  '*':
     - salt
     - dhcp
+    - resolv
+    - users
     - osg
 
   'roles:control':
     - match: grain
     - squid
+
+  'roles:worker':
+    - match: grain
+    - osgvo-docker-pilot
 

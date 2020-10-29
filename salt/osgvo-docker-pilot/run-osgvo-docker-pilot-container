@@ -1,0 +1,40 @@
+#!/bin/bash
+
+set -e
+
+# pre-seed /cvmfs - not sure if this is needed anymore
+for FS in \
+   ams.cern.ch \
+   atlas.cern.ch \
+   cms.cern.ch \
+   connect.opensciencegrid.org \
+   desdm.osgstorage.org \
+   eic.opensciencegrid.org \
+   gwosc.osgstorage.org \
+   icecube.opensciencegrid.org \
+   nexo.opensciencegrid.org \
+   oasis.opensciencegrid.org \
+   singularity.opensciencegrid.org \
+   snoplus.egi.eu \
+   sphenix.opensciencegrid.org \
+   spt.opensciencegrid.org \
+   stash.osgstorage.org \
+   veritas.opensciencegrid.org \
+   xenon.opensciencegrid.org \
+   sw.lsst.eu \
+; do
+    ls -l /cvmfs/$FS/ >/dev/null 2>&1
+done
+
+exec docker run --name osg-worker --rm --user osg \
+       --cap-add=DAC_OVERRIDE --cap-add=CAP_DAC_READ_SEARCH \
+       --cap-add=SETUID --cap-add=SETGID \
+       --cap-add=SYS_ADMIN --cap-add=SYS_CHROOT --cap-add=SYS_PTRACE \
+       -v /cvmfs:/cvmfs \
+       -e TOKEN=$(cat /tmp/osgvo-token.txt) \
+       -e GLIDEIN_Site="Jetstream" \
+       -e GLIDEIN_ResourceName="Jetstream" \
+       -e GLIDEIN_Start_Extra='RemoteOwner == "rynge"' \
+       -e OSG_SQUID_LOCATION="control:3128" \
+       opensciencegrid/osgvo-docker-pilot:latest
+
