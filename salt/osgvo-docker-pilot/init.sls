@@ -1,4 +1,25 @@
 
+/tmp/osgvo-token.txt:
+  file.managed:
+    - source: salt://osgvo-docker-pilot/osgvo-token.txt
+    - user: root
+    - group: root
+    - mode: 600
+
+/usr/sbin/osgvo-check-shutdown:
+  file.managed:
+    - source: salt://osgvo-docker-pilot/osgvo-check-shutdown
+    - user: root
+    - group: root
+    - mode: 755
+
+/etc/cron.d/osgvo-docker-pilot:
+  file.managed:
+    - source: salt://osgvo-docker-pilot/osgvo-docker-pilot.cron
+    - user: root
+    - group: root
+    - mode: 644
+
 /usr/bin/run-osgvo-docker-pilot-container:
   file.managed:
     - source: salt://osgvo-docker-pilot/run-osgvo-docker-pilot-container
@@ -15,7 +36,7 @@
 
 osgvo-docker-pilot:
   service.running:
-    - enable: True
+    - enable: False
     - watch:
       - file: /usr/bin/run-osgvo-docker-pilot-container
       - file: /etc/systemd/system/osgvo-docker-pilot.service
