@@ -11,7 +11,7 @@ base:
   'roles:control':
     - match: grain
     - squid
-    - autoscaler
+    - restapi
 
   'roles:worker':
     - match: grain

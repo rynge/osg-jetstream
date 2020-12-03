@@ -38,6 +38,6 @@ osgvo-docker-pilot:
   service.running:
     - enable: False
     - watch:
-      - file: /usr/bin/run-osgvo-docker-pilot-container
       - file: /etc/systemd/system/osgvo-docker-pilot.service
 
+#- file: /usr/bin/run-osgvo-docker-pilot-container

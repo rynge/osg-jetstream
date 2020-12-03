@@ -1,0 +1,21 @@
+# https://fardog.io/blog/2017/12/30/running-docker-containers-with-systemd/
+
+[Unit]
+
+Description=restapi
+#After=docker.service
+#Requires=docker.service
+
+[Service]
+
+TimeoutStartSec=0
+Restart=always
+
+ExecStart=/srv/osg-jetstream/salt/restapi/run-fastapi
+ExecStop=/usr/bin/killall --regexp uvicorn
+
+
+[Install]
+
+WantedBy=multi-user.target
+

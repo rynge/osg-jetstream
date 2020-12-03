@@ -1,0 +1,3 @@
+
+ */5 * * * *  root  curl "http://control:8111/autoscale/?token=Haphohw6Efa9eiSu" >/dev/null 2>&1
+

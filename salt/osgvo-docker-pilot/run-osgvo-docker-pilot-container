@@ -34,6 +34,6 @@ docker run --name osg-worker --rm --user osg \
        -e GLIDEIN_ResourceName="JetStream" \
        -e GLIDEIN_Start_Extra='True' \
        -e OSG_SQUID_LOCATION="control:3128" \
-       -e ACCEPT_JOBS_FOR_HOURS=1 \
+       -e ACCEPT_JOBS_FOR_HOURS=24 \
        opensciencegrid/osgvo-docker-pilot:latest
 

@@ -1,3 +1,0 @@
-
-*/3 * * * *  root  /srv/osg-jetstream/salt/autoscaler/run-autoscaler >/var/log/autoscaler.log 2>&1
-
