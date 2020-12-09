@@ -13,7 +13,7 @@ fi
 
 # if nobody is logged in (debugging), shut down the VM
 USER_COUNT=$(w --no-header | wc -l)
-if [ $USER_COUNT = 0 ]; then
+if [ $USER_COUNT -gt 0 ]; then
     exit 0
 fi
 

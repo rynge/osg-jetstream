@@ -24,7 +24,11 @@ for FS in \
     ls -l /cvmfs/$FS/ >/dev/null 2>&1
 done
 
-docker run --name osg-worker --rm --user osg \
+# note that the timeout command and the ACCEPT_JOBS_FOR_HOURS
+# needs to line up, with the timeout being something like
+# 12 hours extra
+timeout 36h \
+   docker run --name osg-worker --rm --user osg \
        --cap-add=DAC_OVERRIDE --cap-add=CAP_DAC_READ_SEARCH \
        --cap-add=SETUID --cap-add=SETGID \
        --cap-add=SYS_ADMIN --cap-add=SYS_CHROOT --cap-add=SYS_PTRACE \
