@@ -12,8 +12,9 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 
 # consts
-MAX_INSTANCES_TOTAL = 80
-MAX_INSTANCES_AUTOSCALE = 40
+MAX_INSTANCES_TOTAL = 95
+#MAX_INSTANCES_AUTOSCALE = 60
+MAX_INSTANCES_AUTOSCALE = 0
 
 app = FastAPI()
 
@@ -26,6 +27,7 @@ def instances():
     '''
 
     i = {"counts": {}, "instances": {}}
+    i["counts"]["total_instances"] = 0
 
     for server in cloud.compute.servers():
         if not re.match('^osg-worker', server.name):
@@ -60,8 +62,6 @@ def instances():
         #print(server)
     
         if server.status == 'ACTIVE' or server.status == 'BUILD':
-            if "total_instances" not in i["counts"]:
-                i["counts"]["total_instances"] = 0
             i["counts"]["total_instances"] += 1
 
             i["instances"][server.name] = server
@@ -123,16 +123,19 @@ def remove(n):
     for i in range(n):
         oldest_name = None
         oldest_id = None
-        oldest_ts = datetime.now()
+        oldest_ts = None
         for name, s in ins["instances"].items():
             ts = parser.parse(s.created_at, ignoretz=True)
-            if ts < oldest_ts:
+            if oldest_ts is None or ts < oldest_ts:
                 oldest_name = s.name
                 oldest_id = s.id
                 oldest_ts = ts
         print("Remove server {}".format(oldest_name))
         # we now have the oldest one to remove
-        cloud.compute.delete_server(oldest_id)
+        try:
+            cloud.compute.delete_server(oldest_id)
+        except:
+            pass
         ins["instances"].pop(oldest_name)
 
     return n

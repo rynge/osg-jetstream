@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# ignore startup requests after a system has been running for a while
+UPTIME=$(cat /proc/uptime | sed 's/[\. ].*//')
+if [ $UPTIME -gt 900 ]; then
+    echo "Ignoring request - system has been running for too long already!" 2>&1
+    exit 0
+fi
+
 # pre-seed /cvmfs - not sure if this is needed anymore
 for FS in \
    ams.cern.ch \
