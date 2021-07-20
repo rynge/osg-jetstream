@@ -33,18 +33,18 @@ done
 
 # note that the timeout command and the ACCEPT_JOBS_FOR_HOURS
 # needs to line up, with the timeout being something like
-# 12 hours extra
-timeout 36h \
-   docker run --name osg-worker --rm --user osg \
+# 24 hours extra
+timeout 96h \
+   docker run --name osg-worker --rm --user 1000 \
        --cap-add=DAC_OVERRIDE --cap-add=CAP_DAC_READ_SEARCH \
        --cap-add=SETUID --cap-add=SETGID \
        --cap-add=SYS_ADMIN --cap-add=SYS_CHROOT --cap-add=SYS_PTRACE \
        -v /cvmfs:/cvmfs \
        -e TOKEN=$(cat /tmp/osgvo-token.txt) \
-       -e GLIDEIN_Site="JetStream" \
-       -e GLIDEIN_ResourceName="JetStream" \
+       -e GLIDEIN_Site="Texas Advanced Computing Center" \
+       -e GLIDEIN_ResourceName="TACC-Jetstream-Backfill" \
        -e GLIDEIN_Start_Extra='True' \
-       -e OSG_SQUID_LOCATION="control:3128" \
-       -e ACCEPT_JOBS_FOR_HOURS=24 \
-       opensciencegrid/osgvo-docker-pilot:latest
+       -e OSG_SQUID_LOCATION="192.168.1.6:3128" \
+       -e ACCEPT_JOBS_FOR_HOURS=72 \
+       opensciencegrid/osgvo-docker-pilot:release
 

@@ -1,13 +1,13 @@
 
 enable_extras:
   file.replace:
-    - name: /etc/yum.repos.d/CentOS-Extras.repo 
+    - name: /etc/yum.repos.d/CentOS-Linux-Extras.repo 
     - pattern: '^enabled=[0,1]'
     - repl: 'enabled=1'
 
 enable_power_tools:
   file.replace:
-    - name: /etc/yum.repos.d/CentOS-PowerTools.repo
+    - name: /etc/yum.repos.d/CentOS-Linux-PowerTools.repo
     - pattern: '^enabled=[0,1]'
     - repl: 'enabled=1'
 

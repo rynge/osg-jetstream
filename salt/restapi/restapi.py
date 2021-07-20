@@ -12,8 +12,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 
 # consts
-MAX_INSTANCES_TOTAL = 95
-MAX_INSTANCES_AUTOSCALE = 63
+MAX_INSTANCES_TOTAL = 180
+MAX_INSTANCES_AUTOSCALE = 120
 
 app = FastAPI()
 
@@ -172,9 +172,19 @@ async def status(token: str, adjustment: int):
 async def status(token: str):
     auth(token)
     i = instances()
+
+    # slow start
+    max_add = i["counts"]["total_instances"] * 2 + 1
+    max_add = min(max_add, 10)
+
     delta = MAX_INSTANCES_AUTOSCALE - i["counts"]["total_instances"]
-    if delta > 0:
-        add(delta)
+
+    to_add = min(delta, max_add)
+
+    if to_add > 0:
+        add(to_add)
+        return "Ok - added {}\n".format(to_add)
+
     return "Ok\n"
 
 

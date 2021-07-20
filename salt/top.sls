@@ -16,4 +16,5 @@ base:
   'roles:worker':
     - match: grain
     - osgvo-docker-pilot
+    - tools
 

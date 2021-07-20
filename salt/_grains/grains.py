@@ -17,6 +17,8 @@ def custom_grains():
         grains['roles'].append('control')
     elif re.search('worker', hostname, re.IGNORECASE):
         grains['roles'].append('worker')
+    elif re.search('update', hostname, re.IGNORECASE):
+        grains['roles'].append('worker')
 
     return grains
 
