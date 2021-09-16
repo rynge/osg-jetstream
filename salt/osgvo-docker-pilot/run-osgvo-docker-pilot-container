@@ -31,14 +31,14 @@ for FS in \
     ls -l /cvmfs/$FS/ >/dev/null 2>&1
 done
 
+docker pull opensciencegrid/osgvo-docker-pilot:release
+
 # note that the timeout command and the ACCEPT_JOBS_FOR_HOURS
 # needs to line up, with the timeout being something like
 # 24 hours extra
 timeout 96h \
    docker run --name osg-worker --rm --user 1000 \
-       --cap-add=DAC_OVERRIDE --cap-add=CAP_DAC_READ_SEARCH \
-       --cap-add=SETUID --cap-add=SETGID \
-       --cap-add=SYS_ADMIN --cap-add=SYS_CHROOT --cap-add=SYS_PTRACE \
+       --privileged \
        -v /cvmfs:/cvmfs \
        -e TOKEN=$(cat /tmp/osgvo-token.txt) \
        -e GLIDEIN_Site="Texas Advanced Computing Center" \
@@ -47,4 +47,5 @@ timeout 96h \
        -e OSG_SQUID_LOCATION="192.168.1.6:3128" \
        -e ACCEPT_JOBS_FOR_HOURS=72 \
        opensciencegrid/osgvo-docker-pilot:release
+ 
 
