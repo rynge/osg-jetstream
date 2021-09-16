@@ -31,7 +31,7 @@ for FS in \
     ls -l /cvmfs/$FS/ >/dev/null 2>&1
 done
 
-docker pull opensciencegrid/osgvo-docker-pilot:release
+docker pull hub.opensciencegrid.org/opensciencegrid/osgvo-docker-pilot:release
 
 # note that the timeout command and the ACCEPT_JOBS_FOR_HOURS
 # needs to line up, with the timeout being something like
@@ -46,6 +46,6 @@ timeout 96h \
        -e GLIDEIN_Start_Extra='True' \
        -e OSG_SQUID_LOCATION="192.168.1.6:3128" \
        -e ACCEPT_JOBS_FOR_HOURS=72 \
-       opensciencegrid/osgvo-docker-pilot:release
+       hub.opensciencegrid.org/opensciencegrid/osgvo-docker-pilot:release
  
 
