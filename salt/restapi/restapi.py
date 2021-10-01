@@ -13,7 +13,7 @@ from fastapi.responses import HTMLResponse
 
 # consts
 MAX_INSTANCES_TOTAL = 180
-MAX_INSTANCES_AUTOSCALE = 120
+MAX_INSTANCES_AUTOSCALE = 130
 
 app = FastAPI()
 

@@ -10,7 +10,7 @@ base:
 
   'roles:control':
     - match: grain
-    - squid
+    - frontier-squid
     - restapi
 
   'roles:worker':
